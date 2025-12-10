@@ -51,10 +51,13 @@ I then focused on getting what information I needed for the pre-provided data an
 It is important that we fill in the 'rating' column with np.nan if there is a 0 because food.com rating range from 1 to 5, making a rating of 0 invalid. It is possible that the 0 was a placeholder for the lack of a rating given. 
 
 This is what the clean dataframe looks like:
-| name                                 | recipe_id | minutes | contributor_id | num_tags | n_steps | n_ingredients | calories | sugar_pdv | user_id | rating | avg_rating | user_interest |
-|-------------------------------------|----------:|--------:|---------------:|---------:|--------:|--------------:|---------:|-----------:|--------:|-------:|-----------:|--------------:|
-| 1 brownies in the world best ever    | 333281    | 40      | 985201         | 9        | 10      | 9             | 138.4    | 50         | 386585  | 4      | 4          | 4             |
-| 1 in canada chocolate chip cookies   | 453467    | 45      | 1848091        | 5        | 12      | 11            | 595.1    | 211        | 424680  | 5      | 5          | 5             |
+
+| name                               | recipe_id | minutes | contributor_id | tags_summary                                            | num_tags | n_steps | n_ingredients | calories | sugar_pdv | user_id | rating | avg_rating | user_interest | is_vegan | is_dessert | is_high_protein | is_healthy | is_easy | is_low-in-something | is_main-dish | is_60-minutes-or-less | is_3-steps-or-less | is_30-minutes-or-less | is_meat | is_vegetables | is_15-minutes-or-less | is_taste-mood |
+|------------------------------------|----------:|--------:|---------------:|---------------------------------------------------------|---------:|--------:|--------------:|---------:|----------:|--------:|-------:|-----------:|--------------:|---------:|-----------:|-----------------:|-----------:|---------:|---------------------:|-------------:|-----------------------:|--------------------:|-----------------------:|---------:|--------------:|-----------------------:|--------------:|
+| 1 brownies in the world best ever  |    333281 |      40 |         985201 | 60-minutes-or-less, desserts, chocolate…               |        9 |      10 |             9 |    138.4 |        50 |  386585 |      4 |          4 |             4 |        0 |          1 |                0 |          0 |        0 |                    0 |            0 |                      1 |                   0 |                      0 |        0 |             0 |                      0 |             0 |
+| 1 in canada chocolate chip cookies |    453467 |      45 |        1848091 | 60-minutes-or-less, north-american, canadian…          |        5 |      12 |            11 |    595.1 |       211 |  424680 |      5 |          5 |             5 |        0 |          0 |                0 |          0 |        0 |                    0 |            0 |                      1 |                   0 |                      0 |        0 |             0 |                      0 |             0 |
+| 412 broccoli casserole             |    306168 |      40 |          50969 | 60-minutes-or-less, vegetables, easy…                  |        6 |       6 |             9 |    194.8 |         6 |   29782 |      5 |          5 |            20 |        0 |          0 |                0 |          0 |        1 |                    0 |            0 |                      1 |                   0 |                      0 |        0 |             1 |                      0 |             0 |
+        |
 
 
 It's important to address why I'll be using user interest and not other metrics.
@@ -149,10 +152,10 @@ The resulting p-value is 0.0. This means that we reject the null hypothesis. The
 ## Hypothesis Testing
 As the number of tags increases, it would not be an unreasonable assumption that more people will click on the recipe, and as a result, review it. I decided to explore this via a permuatation test. Is there a positive correlation between the number of tags and the user interest of a recipe?
 
-Null hypothesis: There is no correlation between the number of tags and the user interest
-Alternate hypothesis: There is a positive correlation between the number of tags and the user interest.
-Test statistic: r (taken using np.corrcoef(num_tags, user_interest))
-Significance Level: 0.05
+- Null hypothesis: There is no correlation between the number of tags and the user interest
+- Alternate hypothesis: There is a positive correlation between the number of tags and the user interest.
+- Test statistic: r (taken using np.corrcoef(num_tags, user_interest))
+- Significance Level: 0.05
 
 The choice of Pearson's Correlation Coeffecient as the test statistic was fitting because I am trying to measure the association between the number of tags and user interest, but more specifically, the direction of the association--if any. That being said, the observed statistic is *very* low, with an r-score of about 0.05. 
 
@@ -160,10 +163,10 @@ After conducting the hypothesis test, it is reported that the p-value is 0.0 (or
 
 Additionally, I wanted to observe the impact of specific tags and user interest. I created a function that takes a column name as an input and performs a hypothesis test similar to the following:
 
-Null hypothesis: The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
-Alternative hypothesis:  The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
-Test statistic: |mean_user_interest('is_high_protein' == 1) - mean_user_interest('is_high_protein' == 0)|
-Significance Level: 0.05
+- Null hypothesis: The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
+- Alternative hypothesis:  The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
+- Test statistic: |mean_user_interest('is_high_protein' == 1) - mean_user_interest('is_high_protein' == 0)|
+- Significance Level: 0.05
 
 As for the 'is_high_protein' column, the results are as follows:
 1. Observed difference in mean: 2.678
@@ -173,18 +176,18 @@ As for the 'is_high_protein' column, the results are as follows:
 In this case, we can more confidently affirm that there is a significant difference in the actual difference in mean user interest of high protein recipes versus the permutated difference in mean user interest. Because the p-value is 0.0, we reject the null hypothesis; The distribution of user interest is different in is_high_protein recipes versus non is_high_protein recipes.
 
 Using this function, I performed the same hypothesis test on the top-10 most used tags. Below are the results of each:
-| obs                | obs_mean | p_val | perm_mean | verdict             |
-|-------------------|---------:|------:|----------:|-------------------|
-| easy               | 1.508    | 0     | 0.129368  | we reject the null |
-| low-in-something   | 1.10821  | 0     | 0.130319  | we reject the null |
+| obs                | obs_mean | p_val | perm_mean | verdict                |
+|--------------------|----------|-------|-----------|------------------------|
+| easy               | 1.508    | 0     | 0.129368  | we reject the null     |
+| low-in-something   | 1.10821  | 0     | 0.130319  | we reject the null     |
 | main-dish          | 0.223597 | 0.206 | 0.138736  | we fail to reject null |
 | 60-minutes-or-less | 0.230104 | 0.185 | 0.137969  | we fail to reject null |
-| 3-steps-or-less    | 0.766952 | 0     | 0.137018  | we reject the null |
+| 3-steps-or-less    | 0.766952 | 0     | 0.137018  | we reject the null     |
 | 30-minutes-or-less | 0.299882 | 0.095 | 0.146756  | we fail to reject null |
-| meat               | 0.650274 | 0.001 | 0.157218  | we reject the null |
-| vegetables         | 0.898131 | 0     | 0.150573  | we reject the null |
-| 15-minutes-or-less | 0.827498 | 0     | 0.159373  | we reject the null |
-| taste-mood         | 2.0622   | 0     | 0.164944  | we reject the null |
+| meat               | 0.650274 | 0.001 | 0.157218  | we reject the null     |
+| vegetables         | 0.898131 | 0     | 0.150573  | we reject the null     |
+| 15-minutes-or-less | 0.827498 | 0     | 0.159373  | we reject the null     |
+| taste-mood         | 2.0622   | 0     | 0.164944  | we reject the null     |
 
 
 
@@ -228,7 +231,8 @@ I conducted two Fairness Analysis tests. The first is column specfic, whereas th
 
 I conducted the Fairness Analysis via Permutation test, and the reported p-value is 0.563. We fail to reject the null hypothesis, and the model is fair when it comes to the two 'is_easy' groups. 
 
-For the second fairness test:
+The second one, though not an analysis of two specific groups within the model, I felt was important to include, as it could explain the behavior of the model. I decided to test if the model predicted higher average rated recipes or lower average rated recipes. 
+
 - X - Low average rated recipe (obs_avg_rating < median of all average ratings)
 - Y - High average rated recipe (obs_avg_rating >= median of all average ratings)
 - Signifigance Level = 0.05
