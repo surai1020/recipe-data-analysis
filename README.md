@@ -51,16 +51,17 @@ I then focused on getting what information I needed for the pre-provided data an
 It is important that we fill in the 'rating' column with np.nan if there is a 0 because food.com rating range from 1 to 5, making a rating of 0 invalid. It is possible that the 0 was a placeholder for the lack of a rating given. 
 
 This is what the clean dataframe looks like:
-|    | name                                 |   recipe_id |   minutes |   contributor_id | tags                                                                                                                                      |   num_tags |   n_steps |   n_ingredients |   calories |   sugar_pdv |   user_id |   rating |   avg_rating |   user_interest |
-|---:|:-------------------------------------|------------:|----------:|-----------------:|:------------------------------------------------------------------------------------------------------------------------------------------|-----------:|----------:|----------------:|-----------:|------------:|----------:|---------:|-------------:|----------------:|
-|  0 | 1 brownies in the world    best ever |      333281 |        40 |           985201 | ['60-minutes-or-less', 'for-large-groups', 'desserts', 'lunch', 'snacks', 'cookies-and-brownies', 'chocolate', 'bar-cookies', 'brownies'] |          9 |        10 |               9 |      138.4 |          50 |    386585 |        4 |            4 |               4 |
-|  1 | 1 in canada chocolate chip cookies   |      453467 |        45 |          1848091 | ['60-minutes-or-less', 'north-american', 'for-large-groups', 'canadian', 'british-columbian']                                             |          5 |        12 |              11 |      595.1 |         211 |    424680 |        5 |            5 |               5 |
+| name                                 | recipe_id | minutes | contributor_id | num_tags | n_steps | n_ingredients | calories | sugar_pdv | user_id | rating | avg_rating | user_interest |
+|-------------------------------------|----------:|--------:|---------------:|---------:|--------:|--------------:|---------:|-----------:|--------:|-------:|-----------:|--------------:|
+| 1 brownies in the world best ever    | 333281    | 40      | 985201         | 9        | 10      | 9             | 138.4    | 50         | 386585  | 4      | 4          | 4             |
+| 1 in canada chocolate chip cookies   | 453467    | 45      | 1848091        | 5        | 12      | 11            | 595.1    | 211        | 424680  | 5      | 5          | 5             |
+
 
 It's important to address why I'll be using user interest and not other metrics.
 <iframe
   src="assets/dist_of_given_ratings.html"
   width="800"
-  height="600"
+  height="400"
   frameborder="0"
 ></iframe>
 Here, we see that average ratings are heavily skewed left. This means that average ratings are mostly 4-5 stars. 
@@ -68,7 +69,7 @@ Additionally, the average reviews are heavily skewed *right*. What does this mea
 <iframe
   src="assets/dist_of_given_reviews.html"
   width="800"
-  height="600"
+  height="400"
   frameborder="0"
 ></iframe>
 If a lot of recipes have high ratings, but only 1 or 2 reviews, then using only 'average rating' as a metric to observe tagging influence would not make much sense, as average rating alone does not show that a recipe is regarded well by many people. Because of this, I've decided to analyze 'user interest' as a whole. This factors both the number of reviews given and the average ratings of a recipe.
@@ -77,7 +78,7 @@ Now, let's look at the distribution of tags
 <iframe
   src="assets/dist_of_num_tags.html"
   width="800"
-  height="600"
+  height="400"
   frameborder="0"
 ></iframe>
 Most recipes have around 7-10 tags, though the distribution number of tags is significantly more spread out than that of review count or average ratings. Increasing the number of tags may increase the outreach the recipe has. However, it seems most recipe authors did not subscribe to this, as the number of tags tapers off towards the end. This is arguably a positive indicator, as inflated tag counts suggest an attempt to attract more clicks.
@@ -85,7 +86,7 @@ Most recipes have around 7-10 tags, though the distribution number of tags is si
 <iframe
   src="assets/avg_interest_by_tag.html"
   width="800"
-  height="600"
+  height="400"
   frameborder="0"
 ></iframe>
 Up until about ~29 tags, we see the average user interest slowly increase up to about 21.5 with minor fluctuations. However, the fluctuations begin to grow around 30-tags, with a peak at 37 tags and a user interest of 36.4. When paired with the previous figure, the rapid fluctuations could reflect a small amount of recipes that overtagged and recieved mixed user-reception. 
@@ -112,7 +113,7 @@ I also wanted to examine the relationship of tags with eachother. What percentag
 <iframe
   src="assets/shared_tag_hmp.html"
   width="600"
-  height="500"
+  height="400"
   frameborder="0"
 ></iframe>
 
@@ -129,7 +130,7 @@ The resulting p-value is 0.941. This means that we fail to reject the null hypot
 <iframe
   src="assets/missingness_fig1.html"
   width="600"
-  height="500"
+  height="400"
   frameborder="0"
 ></iframe>
 
@@ -141,7 +142,7 @@ The resulting p-value is 0.0. This means that we reject the null hypothesis. The
 <iframe
   src="assets/missingness_fig2.html"
   width="600"
-  height="500"
+  height="400"
   frameborder="0"
 ></iframe>
 
@@ -172,19 +173,18 @@ As for the 'is_high_protein' column, the results are as follows:
 In this case, we can more confidently affirm that there is a significant difference in the actual difference in mean user interest of high protein recipes versus the permutated difference in mean user interest. Because the p-value is 0.0, we reject the null hypothesis; The distribution of user interest is different in is_high_protein recipes versus non is_high_protein recipes.
 
 Using this function, I performed the same hypothesis test on the top-10 most used tags. Below are the results of each:
-|                    |   obs_mean |   p_val |   perm_mean | verdict                |
-|:-------------------|-----------:|--------:|------------:|:-----------------------|
-| easy               |   1.508    |   0     |    0.129368 | we reject the null     |
-| low-in-something   |   1.10821  |   0     |    0.130319 | we reject the null     |
-| main-dish          |   0.223597 |   0.206 |    0.138736 | we fail to reject null |
-| 60-minutes-or-less |   0.230104 |   0.185 |    0.137969 | we fail to reject null |
-| 3-steps-or-less    |   0.766952 |   0     |    0.137018 | we reject the null     |
-| 30-minutes-or-less |   0.299882 |   0.095 |    0.146756 | we fail to reject null |
-| meat               |   0.650274 |   0.001 |    0.157218 | we reject the null     |
-| vegetables         |   0.898131 |   0     |    0.150573 | we reject the null     |
-| 15-minutes-or-less |   0.827498 |   0     |    0.159373 | we reject the null     |
-| taste-mood         |   2.0622   |   0     |    0.164944 | we reject the null     |
-Selection deleted
+| obs                | obs_mean | p_val | perm_mean | verdict             |
+|-------------------|---------:|------:|----------:|-------------------|
+| easy               | 1.508    | 0     | 0.129368  | we reject the null |
+| low-in-something   | 1.10821  | 0     | 0.130319  | we reject the null |
+| main-dish          | 0.223597 | 0.206 | 0.138736  | we fail to reject null |
+| 60-minutes-or-less | 0.230104 | 0.185 | 0.137969  | we fail to reject null |
+| 3-steps-or-less    | 0.766952 | 0     | 0.137018  | we reject the null |
+| 30-minutes-or-less | 0.299882 | 0.095 | 0.146756  | we fail to reject null |
+| meat               | 0.650274 | 0.001 | 0.157218  | we reject the null |
+| vegetables         | 0.898131 | 0     | 0.150573  | we reject the null |
+| 15-minutes-or-less | 0.827498 | 0     | 0.159373  | we reject the null |
+| taste-mood         | 2.0622   | 0     | 0.164944  | we reject the null |
 
 
 
@@ -219,21 +219,21 @@ The modeling algorithm I chose was a Polynomial Linear Regression model. The fir
 
 ## Fairness Analysis
 I conducted two Fairness Analysis tests. The first is column specfic, whereas the second takes the whole model into account. 
-X - 'is_easy' == 1
-Y - 'is_easy' == 0
-Signifigance Level = 0.05
-Test Statistic - RMSE of X - RMSE of Y
-Null -  The model is fair.
-Alternative - The model is unfair. The RMSE for non-'is_easy' recipes and 'is_easy' recipes is different. 
+- X - 'is_easy' == 1
+- Y - 'is_easy' == 0
+- Signifigance Level = 0.05
+- Test Statistic - RMSE of X - RMSE of Y
+- Null -  The model is fair.
+- Alternative - The model is unfair. The RMSE for non-'is_easy' recipes and 'is_easy' recipes is different. 
 
-I conducted the Fairness Analysis via Permutation test. The reported p-value is 0.563. We fail to reject the null hypothesis, and the model is fair when it comes to the two 'is_easy' groups. 
+I conducted the Fairness Analysis via Permutation test, and the reported p-value is 0.563. We fail to reject the null hypothesis, and the model is fair when it comes to the two 'is_easy' groups. 
 
 For the second fairness test:
-X - Low average rated recipe (obs_avg_rating < median of all average ratings)
-Y - High average rated recipe (obs_avg_rating >= median of all average ratings)
-Signifigance Level = 0.05
-Test Statistic - RMSE of X - RMSE of Y
-Null -  The model is fair and unbiased when it comes to the average rated recipes
-Alternative - The model is biased and performs better on higher rated recipes
+- X - Low average rated recipe (obs_avg_rating < median of all average ratings)
+- Y - High average rated recipe (obs_avg_rating >= median of all average ratings)
+- Signifigance Level = 0.05
+- Test Statistic - RMSE of X - RMSE of Y
+- Null -  The model is fair and unbiased when it comes to the average rated recipes
+- Alternative - The model is biased and performs better on higher rated recipes
 
 This test was also conducted via Permutation test. The reported p-value is 0.0. We reject the null hypothesis. The model is biased and performs better on higher rated recipes. The visualizations from the Exploratory Analysis section support this, as average rating is heavily skewed toward higher ratings. This likely means most of the training data consisted of higher ratings. 
