@@ -165,7 +165,7 @@ Additionally, I wanted to observe the impact of specific tags and user interest.
 
 - Null hypothesis: The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
 - Alternative hypothesis:  The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
-- Test statistic: |mean_user_interest('is_high_protein' == 1) - mean_user_interest('is_high_protein' == 0)|
+- Test statistic: abs(mean_user_interest('is_high_protein' == 1) - mean_user_interest('is_high_protein' == 0))
 - Significance Level: 0.05
 
 As for the 'is_high_protein' column, the results are as follows:
