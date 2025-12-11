@@ -20,6 +20,7 @@ This large dataset (234,429  observations, 24 features) includes information of 
 |  | n_steps | Number of steps in the recipe |
 |  | calories | Total calorie count for the recipe |
 |  | sugar_pdv | Total sugar in PDV for the recipe |
+|  | description | Description of the recipe |
 | **Tag information** | tags | Various tags applied for specific recipe |
 |  | num_tags | Number of tags in a recipe |
 |  | is_vegan | Bool: recipe tagged with 'vegan' |
@@ -52,13 +53,66 @@ It is important that we fill in the 'rating' column with np.nan if there is a 0 
 
 This is what the clean dataframe looks like:
 
-| name                               | recipe_id | minutes | contributor_id | tags_summary                                            | num_tags | n_steps | n_ingredients | calories | sugar_pdv | user_id | rating | avg_rating | user_interest | is_vegan | is_dessert | is_high_protein | is_healthy | is_easy | is_low-in-something | is_main-dish | is_60-minutes-or-less | is_3-steps-or-less | is_30-minutes-or-less | is_meat | is_vegetables | is_15-minutes-or-less | is_taste-mood |
-|------------------------------------|----------:|--------:|---------------:|---------------------------------------------------------|---------:|--------:|--------------:|---------:|----------:|--------:|-------:|-----------:|--------------:|---------:|-----------:|-----------------:|-----------:|---------:|---------------------:|-------------:|-----------------------:|--------------------:|-----------------------:|---------:|--------------:|-----------------------:|--------------:|
-| 1 brownies in the world best ever  |    333281 |      40 |         985201 | 60-minutes-or-less, desserts, chocolate…               |        9 |      10 |             9 |    138.4 |        50 |  386585 |      4 |          4 |             4 |        0 |          1 |                0 |          0 |        0 |                    0 |            0 |                      1 |                   0 |                      0 |        0 |             0 |                      0 |             0 |
-| 1 in canada chocolate chip cookies |    453467 |      45 |        1848091 | 60-minutes-or-less, north-american, canadian…          |        5 |      12 |            11 |    595.1 |       211 |  424680 |      5 |          5 |             5 |        0 |          0 |                0 |          0 |        0 |                    0 |            0 |                      1 |                   0 |                      0 |        0 |             0 |                      0 |             0 |
-| 412 broccoli casserole             |    306168 |      40 |          50969 | 60-minutes-or-less, vegetables, easy…                  |        6 |       6 |             9 |    194.8 |         6 |   29782 |      5 |          5 |            20 |        0 |          0 |                0 |          0 |        1 |                    0 |            0 |                      1 |                   0 |                      0 |        0 |             1 |                      0 |             0 |
-        |
-
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>recipe_id</th>
+      <th>minutes</th>
+      <th>contributor_id</th>
+      <th>tags</th>
+      <th>num_tags</th>
+      <th>n_steps</th>
+      <th>n_ingredients</th>
+      <th>calories</th>
+      <th>sugar_pdv</th>
+      <th>user_id</th>
+      <th>rating</th>
+      <th>avg_rating</th>
+      <th>user_interest</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1 brownies in the world    best ever</td>
+      <td>333281.0</td>
+      <td>40</td>
+      <td>985201</td>
+      <td>[60-minutes-or-less, for-large-groups, desserts, lunch, snacks, cookies-and-brownies, chocolate, bar-cookies, brownies]</td>
+      <td>9</td>
+      <td>10</td>
+      <td>9</td>
+      <td>138.4</td>
+      <td>50.0</td>
+      <td>386585.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>4.0</td>
+      <td>these are the most; chocolatey, moist, rich, dense, fudgy, delicious brownies that you'll ever make.....sereiously! there's no doubt that these will be your fav brownies ever for you can add things to them or make them plain.....either way they're pure heaven!</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1 in canada chocolate chip cookies</td>
+      <td>453467.0</td>
+      <td>45</td>
+      <td>1848091</td>
+      <td>[60-minutes-or-less, north-american, for-large-groups, canadian, british-columbian]</td>
+      <td>5</td>
+      <td>12</td>
+      <td>11</td>
+      <td>595.1</td>
+      <td>211.0</td>
+      <td>424680.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>this is the recipe that we use at my school cafeteria for chocolate chip cookies. they must be the best chocolate chip cookies i have ever had! if you don't have margarine or don't like it, then just use butter (softened) instead.</td>
+    </tr>
+  </tbody>
+</table>
 
 It's important to address why I'll be using user interest and not other metrics.
 <iframe
@@ -337,6 +391,10 @@ I also wanted to examine the relationship of tags with eachother. What percentag
 The 'easy' tag seems to be paired with other tags significantly more than others. In specific, the tag is often paired with '15-minutes-or-less' or '3-steps-or-less.' This makes sense, as both of these tags could be interchangable with the 'easy' tag due to its displayed simplicity of the recipe. Many of the shared tags are not surprising, as they are tags you would normally expect to be paired together, such as 'meat' and 'main-dish' and so on. Associations between tags are important, as they can explain why certain tags may both effect user interest. 
 
 ## Assessment of Missingness
+# NMAR
+A column that I believe is NMAR is the 'description' column. For a column to be NMAR, the probability of a missing value is dependent on the column itself. In this case, it is likely that a person did not want to include a description because it would be either too long or too short. For example, if the person writing out the description writes out a description to discover it is too short and casual, they may not want to include it because they feel there is no point. On the contrast, a description that is too long might seem to intense, leading the author to not want to include it. This would mean that the content of the column itself is why the value is missing, making it NMAR. 
+
+# MAR vs MCAR
 The assess missingness, I created two different functions to test on different kinds of data. One function computes the Total-Variation Distance as a test statistic, which is optimal for the categorical columns such as the one-hot encoded tags. The other function computes difference in means, which is good for more continuous variables. Both of these functions test whether or not the missingness of the 'rating' column is MAR. 
 
 I decided to test the 'is_healthy' column and the 'calories' column. The 'is_healthy' column utilizes the test statistic of TVD. 
