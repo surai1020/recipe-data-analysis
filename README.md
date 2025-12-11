@@ -181,6 +181,7 @@ Using this function, I performed the same hypothesis test on the top-10 most use
   <thead>
     <tr style="text-align: right;">
       <th></th>
+      <th>index</th>
       <th>obs_mean</th>
       <th>p_val</th>
       <th>perm_mean</th>
@@ -189,70 +190,80 @@ Using this function, I performed the same hypothesis test on the top-10 most use
   </thead>
   <tbody>
     <tr>
-      <th>easy</th>
+      <th>0</th>
+      <td>easy</td>
       <td>1.51</td>
       <td>0.00</td>
       <td>0.13</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>low-in-something</th>
+      <th>1</th>
+      <td>low-in-something</td>
       <td>1.11</td>
       <td>0.00</td>
       <td>0.13</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>main-dish</th>
+      <th>2</th>
+      <td>main-dish</td>
       <td>0.22</td>
       <td>0.20</td>
       <td>0.14</td>
       <td>we fail to reject null</td>
     </tr>
     <tr>
-      <th>60-minutes-or-less</th>
+      <th>3</th>
+      <td>60-minutes-or-less</td>
       <td>0.23</td>
       <td>0.18</td>
       <td>0.14</td>
       <td>we fail to reject null</td>
     </tr>
     <tr>
-      <th>3-steps-or-less</th>
+      <th>4</th>
+      <td>3-steps-or-less</td>
       <td>0.77</td>
       <td>0.00</td>
       <td>0.14</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>30-minutes-or-less</th>
+      <th>5</th>
+      <td>30-minutes-or-less</td>
       <td>0.30</td>
       <td>0.08</td>
       <td>0.15</td>
       <td>we fail to reject null</td>
     </tr>
     <tr>
-      <th>meat</th>
+      <th>6</th>
+      <td>meat</td>
       <td>0.65</td>
       <td>0.00</td>
       <td>0.15</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>vegetables</th>
+      <th>7</th>
+      <td>vegetables</td>
       <td>0.90</td>
       <td>0.00</td>
       <td>0.15</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>15-minutes-or-less</th>
+      <th>8</th>
+      <td>15-minutes-or-less</td>
       <td>0.83</td>
       <td>0.00</td>
       <td>0.16</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>taste-mood</th>
+      <th>9</th>
+      <td>taste-mood</td>
       <td>2.06</td>
       <td>0.00</td>
       <td>0.17</td>
