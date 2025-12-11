@@ -96,22 +96,236 @@ Up until about ~29 tags, we see the average user interest slowly increase up to 
 
 I also wanted to examine the relationship of tags with eachother. What percentage of each tag is *also* tagged with another? For this, I created an aggregate table, though the heatmap may make the table easier to understand. 
 
-|    is_vegan |   is_dessert |   is_high_protein |   is_healthy |   is_easy |   is_low-in-something |   is_main-dish |   is_60-minutes-or-less |   is_3-steps-or-less |   is_30-minutes-or-less |     is_meat |   is_vegetables |   is_15-minutes-or-less |   is_taste-mood |
-|------------:|-------------:|------------------:|-------------:|----------:|----------------------:|---------------:|------------------------:|---------------------:|------------------------:|------------:|----------------:|------------------------:|----------------:|
-| 1           |  0.110793    |        0.00429365 |    0.28919   |  0.703149 |              0.483246 |    0.189342    |             0.280519    |             0.354268 |             0.2279      | 0.000168379 |       0.448055  |             0.313858    |        0.262418 |
-| 0.0379897   |  1           |        0.00204959 |    0.125603  |  0.524638 |              0.306891 |    0.000635086 |             0.34286     |             0.165382 |             0.223492    | 0.00118357  |       0.0166566 |             0.179671    |        0.23885  |
-| 0.00619759  |  0.00862802  |        1          |    0.158464  |  0.673472 |              0.829505 |    0.696926    |             0.246202    |             0.236724 |             0.323733    | 0.661077    |       0.0218739 |             0.1406      |        0.171953 |
-| 0.0886406   |  0.112278    |        0.0336499  |    1         |  0.660043 |              0.875697 |    0.210879    |             0.255135    |             0.321429 |             0.251574    | 0.122781    |       0.225666  |             0.265019    |        0.177565 |
-| 0.0612151   |  0.133204    |        0.0406195  |    0.187471  |  1        |              0.41337  |    0.268549    |             0.24563     |             0.438415 |             0.260802    | 0.216459    |       0.236461  |             0.305335    |        0.227013 |
-| 0.0650447   |  0.120469    |        0.0773511  |    0.384546  |  0.639104 |              1        |    0.290979    |             0.267069    |             0.294571 |             0.245549    | 0.226127    |       0.272734  |             0.250252    |        0.186454 |
-| 0.0313205   |  0.000306381 |        0.079868   |    0.113807  |  0.510264 |              0.357602 |    1           |             0.358898    |             0.168649 |             0.25587     | 0.584951    |       0.222767  |             0.0496059   |        0.259115 |
-| 0.0474036   |  0.168971    |        0.0288234  |    0.14066   |  0.476782 |              0.335297 |    0.366638    |             1           |             0.154645 |             0.000825153 | 0.263892    |       0.264746  |             0.000170721 |        0.210158 |
-| 0.0703491   |  0.095777    |        0.0325665  |    0.208239  |  1        |              0.434583 |    0.202454    |             0.181724    |             1        |             0.233031    | 0.168584    |       0.219724  |             0.430637    |        0.15536  |
-| 0.0459647   |  0.131459    |        0.0452346  |    0.165538  |  0.604197 |              0.367938 |    0.311973    |             0.000984837 |             0.236683 |             1           | 0.216783    |       0.247703  |             0.000356579 |        0.178901 |
-| 3.59906e-05 |  0.000737808 |        0.0978945  |    0.0856217 |  0.531456 |              0.359097 |    0.755857    |             0.333795    |             0.181465 |             0.229746    | 1           |       0.191506  |             0.0559115   |        0.272521 |
-| 0.0999587   |  0.0108373   |        0.00338079 |    0.16425   |  0.60595  |              0.452049 |    0.30044     |             0.349517    |             0.246854 |             0.273994    | 0.19988     |       1         |             0.153169    |        0.255212 |
-| 0.0763966   |  0.127546    |        0.02371    |    0.210459  |  0.853703 |              0.45256  |    0.0729948   |             0.000245912 |             0.52787  |             0.000430346 | 0.0636706   |       0.167118  |             1           |        0.17181  |
-| 0.0665542   |  0.176667    |        0.0302131  |    0.146923  |  0.661336 |              0.351326 |    0.397275    |             0.315412    |             0.198424 |             0.224965    | 0.323355    |       0.290131  |             0.179015    |        1        |
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is_dessert</th>
+      <th>is_high_protein</th>
+      <th>is_healthy</th>
+      <th>is_easy</th>
+      <th>is_low-in-something</th>
+      <th>is_main-dish</th>
+      <th>is_60-minutes-or-less</th>
+      <th>is_3-steps-or-less</th>
+      <th>is_30-minutes-or-less</th>
+      <th>is_meat</th>
+      <th>is_vegetables</th>
+      <th>is_15-minutes-or-less</th>
+      <th>is_taste-mood</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>is_dessert</th>
+      <td>1.00</td>
+      <td>0.00</td>
+      <td>0.13</td>
+      <td>0.52</td>
+      <td>0.31</td>
+      <td>0.00</td>
+      <td>0.34</td>
+      <td>0.17</td>
+      <td>0.22</td>
+      <td>0.00</td>
+      <td>0.02</td>
+      <td>0.18</td>
+      <td>0.24</td>
+    </tr>
+    <tr>
+      <th>is_high_protein</th>
+      <td>0.01</td>
+      <td>1.00</td>
+      <td>0.16</td>
+      <td>0.67</td>
+      <td>0.83</td>
+      <td>0.70</td>
+      <td>0.25</td>
+      <td>0.24</td>
+      <td>0.32</td>
+      <td>0.66</td>
+      <td>0.02</td>
+      <td>0.14</td>
+      <td>0.17</td>
+    </tr>
+    <tr>
+      <th>is_healthy</th>
+      <td>0.11</td>
+      <td>0.03</td>
+      <td>1.00</td>
+      <td>0.66</td>
+      <td>0.88</td>
+      <td>0.21</td>
+      <td>0.26</td>
+      <td>0.32</td>
+      <td>0.25</td>
+      <td>0.12</td>
+      <td>0.23</td>
+      <td>0.27</td>
+      <td>0.18</td>
+    </tr>
+    <tr>
+      <th>is_easy</th>
+      <td>0.13</td>
+      <td>0.04</td>
+      <td>0.19</td>
+      <td>1.00</td>
+      <td>0.41</td>
+      <td>0.27</td>
+      <td>0.25</td>
+      <td>0.44</td>
+      <td>0.26</td>
+      <td>0.22</td>
+      <td>0.24</td>
+      <td>0.31</td>
+      <td>0.23</td>
+    </tr>
+    <tr>
+      <th>is_low-in-something</th>
+      <td>0.12</td>
+      <td>0.08</td>
+      <td>0.38</td>
+      <td>0.64</td>
+      <td>1.00</td>
+      <td>0.29</td>
+      <td>0.27</td>
+      <td>0.29</td>
+      <td>0.25</td>
+      <td>0.23</td>
+      <td>0.27</td>
+      <td>0.25</td>
+      <td>0.19</td>
+    </tr>
+    <tr>
+      <th>is_main-dish</th>
+      <td>0.00</td>
+      <td>0.08</td>
+      <td>0.11</td>
+      <td>0.51</td>
+      <td>0.36</td>
+      <td>1.00</td>
+      <td>0.36</td>
+      <td>0.17</td>
+      <td>0.26</td>
+      <td>0.58</td>
+      <td>0.22</td>
+      <td>0.05</td>
+      <td>0.26</td>
+    </tr>
+    <tr>
+      <th>is_60-minutes-or-less</th>
+      <td>0.17</td>
+      <td>0.03</td>
+      <td>0.14</td>
+      <td>0.48</td>
+      <td>0.34</td>
+      <td>0.37</td>
+      <td>1.00</td>
+      <td>0.15</td>
+      <td>0.00</td>
+      <td>0.26</td>
+      <td>0.26</td>
+      <td>0.00</td>
+      <td>0.21</td>
+    </tr>
+    <tr>
+      <th>is_3-steps-or-less</th>
+      <td>0.10</td>
+      <td>0.03</td>
+      <td>0.21</td>
+      <td>1.00</td>
+      <td>0.43</td>
+      <td>0.20</td>
+      <td>0.18</td>
+      <td>1.00</td>
+      <td>0.23</td>
+      <td>0.17</td>
+      <td>0.22</td>
+      <td>0.43</td>
+      <td>0.16</td>
+    </tr>
+    <tr>
+      <th>is_30-minutes-or-less</th>
+      <td>0.13</td>
+      <td>0.05</td>
+      <td>0.17</td>
+      <td>0.60</td>
+      <td>0.37</td>
+      <td>0.31</td>
+      <td>0.00</td>
+      <td>0.24</td>
+      <td>1.00</td>
+      <td>0.22</td>
+      <td>0.25</td>
+      <td>0.00</td>
+      <td>0.18</td>
+    </tr>
+    <tr>
+      <th>is_meat</th>
+      <td>0.00</td>
+      <td>0.10</td>
+      <td>0.09</td>
+      <td>0.53</td>
+      <td>0.36</td>
+      <td>0.76</td>
+      <td>0.33</td>
+      <td>0.18</td>
+      <td>0.23</td>
+      <td>1.00</td>
+      <td>0.19</td>
+      <td>0.06</td>
+      <td>0.27</td>
+    </tr>
+    <tr>
+      <th>is_vegetables</th>
+      <td>0.01</td>
+      <td>0.00</td>
+      <td>0.16</td>
+      <td>0.61</td>
+      <td>0.45</td>
+      <td>0.30</td>
+      <td>0.35</td>
+      <td>0.25</td>
+      <td>0.27</td>
+      <td>0.20</td>
+      <td>1.00</td>
+      <td>0.15</td>
+      <td>0.26</td>
+    </tr>
+    <tr>
+      <th>is_15-minutes-or-less</th>
+      <td>0.13</td>
+      <td>0.02</td>
+      <td>0.21</td>
+      <td>0.85</td>
+      <td>0.45</td>
+      <td>0.07</td>
+      <td>0.00</td>
+      <td>0.53</td>
+      <td>0.00</td>
+      <td>0.06</td>
+      <td>0.17</td>
+      <td>1.00</td>
+      <td>0.17</td>
+    </tr>
+    <tr>
+      <th>is_taste-mood</th>
+      <td>0.18</td>
+      <td>0.03</td>
+      <td>0.15</td>
+      <td>0.66</td>
+      <td>0.35</td>
+      <td>0.40</td>
+      <td>0.32</td>
+      <td>0.20</td>
+      <td>0.22</td>
+      <td>0.32</td>
+      <td>0.29</td>
+      <td>0.18</td>
+      <td>1.00</td>
+    </tr>
+  </tbody>
+</table>
 
 <iframe
   src="assets/shared_tag_hmp.html"
@@ -165,7 +379,7 @@ Additionally, I wanted to observe the impact of specific tags and user interest.
 
 - Null hypothesis: The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
 - Alternative hypothesis:  The distribution of user interest is not different in 'dessert' recipes versus non 'dessert' recipes
-- Test statistic: abs(mean_user_interest('is_high_protein' == 1) - mean_user_interest('is_high_protein' == 0))
+- Test statistic: abs(mean_user_interest('is_high_protein' == 1) - mean_user_interest('is_high_protein' == 0)
 - Significance Level: 0.05
 
 As for the 'is_high_protein' column, the results are as follows:
@@ -181,7 +395,6 @@ Using this function, I performed the same hypothesis test on the top-10 most use
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>index</th>
       <th>obs_mean</th>
       <th>p_val</th>
       <th>perm_mean</th>
@@ -190,80 +403,70 @@ Using this function, I performed the same hypothesis test on the top-10 most use
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>easy</td>
+      <th>easy</th>
       <td>1.51</td>
       <td>0.00</td>
       <td>0.13</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>low-in-something</td>
+      <th>low-in-something</th>
       <td>1.11</td>
       <td>0.00</td>
       <td>0.13</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>main-dish</td>
+      <th>main-dish</th>
       <td>0.22</td>
       <td>0.20</td>
       <td>0.14</td>
       <td>we fail to reject null</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>60-minutes-or-less</td>
+      <th>60-minutes-or-less</th>
       <td>0.23</td>
       <td>0.18</td>
       <td>0.14</td>
       <td>we fail to reject null</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>3-steps-or-less</td>
+      <th>3-steps-or-less</th>
       <td>0.77</td>
       <td>0.00</td>
       <td>0.14</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>5</th>
-      <td>30-minutes-or-less</td>
+      <th>30-minutes-or-less</th>
       <td>0.30</td>
       <td>0.08</td>
       <td>0.15</td>
       <td>we fail to reject null</td>
     </tr>
     <tr>
-      <th>6</th>
-      <td>meat</td>
+      <th>meat</th>
       <td>0.65</td>
       <td>0.00</td>
       <td>0.15</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>7</th>
-      <td>vegetables</td>
+      <th>vegetables</th>
       <td>0.90</td>
       <td>0.00</td>
       <td>0.15</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>8</th>
-      <td>15-minutes-or-less</td>
+      <th>15-minutes-or-less</th>
       <td>0.83</td>
       <td>0.00</td>
       <td>0.16</td>
       <td>we reject the null</td>
     </tr>
     <tr>
-      <th>9</th>
-      <td>taste-mood</td>
+      <th>taste-mood</th>
       <td>2.06</td>
       <td>0.00</td>
       <td>0.17</td>
