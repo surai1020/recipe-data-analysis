@@ -391,10 +391,10 @@ I also wanted to examine the relationship of tags with eachother. What percentag
 The 'easy' tag seems to be paired with other tags significantly more than others. In specific, the tag is often paired with '15-minutes-or-less' or '3-steps-or-less.' This makes sense, as both of these tags could be interchangable with the 'easy' tag due to its displayed simplicity of the recipe. Many of the shared tags are not surprising, as they are tags you would normally expect to be paired together, such as 'meat' and 'main-dish' and so on. Associations between tags are important, as they can explain why certain tags may both effect user interest. 
 
 ## Assessment of Missingness
-# NMAR
+### NMAR
 A column that I believe is NMAR is the 'description' column. For a column to be NMAR, the probability of a missing value is dependent on the column itself. In this case, it is likely that a person did not want to include a description because it would be either too long or too short. For example, if the person writing out the description writes out a description to discover it is too short and casual, they may not want to include it because they feel there is no point. On the contrast, a description that is too long might seem to intense, leading the author to not want to include it. This would mean that the content of the column itself is why the value is missing, making it NMAR. 
 
-# MAR vs MCAR
+### MAR vs MCAR
 The assess missingness, I created two different functions to test on different kinds of data. One function computes the Total-Variation Distance as a test statistic, which is optimal for the categorical columns such as the one-hot encoded tags. The other function computes difference in means, which is good for more continuous variables. Both of these functions test whether or not the missingness of the 'rating' column is MAR. 
 
 I decided to test the 'is_healthy' column and the 'calories' column. The 'is_healthy' column utilizes the test statistic of TVD. 
